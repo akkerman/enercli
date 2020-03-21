@@ -27,7 +27,7 @@ function init() {
   } = process.env
 
   if (!client_id || !client_secret) {
-    console.log('Please set both client_id and client_secret as environment variables')
+    console.error('Please set both client_id and client_secret as environment variables')
     process.exit(1)
   }
 
@@ -36,16 +36,16 @@ function init() {
   const buildTable = makeBuildTable()
 
   return async function main() {
-    const now = moment().format("ddd HH:mm")
-    const lastUpdated = moment().startOf('day').format("YYYY-MM-DDTHH:mm:ss")
+    const now = moment().format('ddd HH:mm')
+    const lastUpdated = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
-    console.clear()
 
     try {
       const token = await getToken()
 
       const disruptions = await getDisruptions({ token, lastUpdated })
 
+      console.clear()
       console.info(`${now} ${disruptions.length} disruptions today`)
       console.info(buildTable(disruptions))
     } catch (error) {
@@ -56,5 +56,6 @@ function init() {
 
 
 const main = init()
+
 main()
 setInterval(main, 500_000)

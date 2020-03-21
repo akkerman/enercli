@@ -9,6 +9,8 @@ export default function makeBuildTable() {
       colWidths: [4,10, 15, 80, 20, 20, 20]
     })
 
+    disruptions.sort(disruptionComparator)
+
     for (let i = 0,max = Math.min(disruptions.length, 20); i < max; i += 1) {
       const dis = disruptions[i]
 
@@ -36,6 +38,13 @@ export default function makeBuildTable() {
       'Liander': chalk.cyan('Liander'),
       'Enexis': chalk.magenta('Enexis'),
     }[nb]
+  }
+
+  function disruptionComparator(x,y) {
+    const xd = x.lastUpdated
+    const yd = y.lastUpdated
+
+    return xd < yd ? 1 : -1
   }
 
 }
