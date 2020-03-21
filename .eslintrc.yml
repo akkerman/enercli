@@ -1,0 +1,85 @@
+---
+env:
+  browser: false
+  node: true
+  commonjs: false
+  es6: true
+  jest: true
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: 'module'
+extends: 'eslint:recommended'
+rules:
+  indent:
+    - error
+    - 2
+  linebreak-style:
+    - off
+    - unix
+  quotes:
+    - error
+    - single
+  quote-props:
+    - off
+  semi:
+    - error
+    - never
+  no-console:
+    - off
+  no-debugger:
+    - error
+  no-alert:
+    - error
+
+# spacing
+  eol-last:
+    - error
+    - unix
+  space-before-blocks:
+    - error
+  space-before-function-paren:
+    - error
+    - named: never
+      anonymous: always
+  no-spaced-func:
+    - error
+  space-unary-ops:
+    - error
+  space-in-parens:
+    - error
+  space-infix-ops:
+    - error
+  no-whitespace-before-property:
+    - error
+  padded-blocks:
+    - off
+  no-trailing-spaces:
+    - error
+  object-curly-spacing:
+    - error
+    - always
+
+# misc
+  one-var:
+    - error
+    - var: always
+      const: never
+      let: never
+  no-magic-numbers:
+    - off
+  comma-dangle:
+    - error
+    - only-multiline
+  no-param-reassign:
+    - error
+  newline-after-var:
+    - error
+    - always
+  newline-before-return:
+    - error
+  no-use-before-define:
+    - error
+    - functions: false
+      classes: true
+  no-unused-vars:
+    - error
