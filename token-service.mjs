@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 export default function makeGetToken({ readToken, httpClient, saveToken, client_id, client_secret }) {
 
   return async function getToken() {
-    const now = new Date().toString().split(' ')[4]
     const existingToken = await readToken()
 
     if (existingToken) {
@@ -11,13 +10,13 @@ export default function makeGetToken({ readToken, httpClient, saveToken, client_
 
       if (sub === client_id && stillValid(exp)) {
 
-        console.info(now + ' Reusing existing token ')
+        console.info('Reusing existing token ')
 
         return existingToken
       }
     }
 
-    console.info(now + ' Fetching new token')
+    console.info('Fetching new token')
     const newToken = await getTokenFromService()
 
     await saveToken(newToken)

@@ -4,6 +4,7 @@ import makeGetToken from './token-service.mjs'
 import makeGetDisruptions from './disruption-service.mjs'
 import makeBuildTable from './table-service.mjs'
 import { default as fsWithCallbacks } from 'fs'
+import moment from 'moment'
 
 const fs = fsWithCallbacks.promises
 
@@ -35,14 +36,18 @@ function init() {
   const buildTable = makeBuildTable()
 
   return async function main() {
+    const now = moment().format("ddd HH:mm")
+    const lastUpdated = moment().startOf('day').format("YYYY-MM-DDTHH:mm:ss")
+
     console.clear()
 
     try {
       const token = await getToken()
 
-      const disruptions = await getDisruptions({ token })
+      const disruptions = await getDisruptions({ token, lastUpdated })
 
-      console.log(buildTable(disruptions))
+      console.info(`${now} ${disruptions.length} disruptions today`)
+      console.info(buildTable(disruptions))
     } catch (error) {
       console.log(error)
     }

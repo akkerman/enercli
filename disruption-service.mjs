@@ -1,11 +1,11 @@
 export default function makeDisruptionService({ httpClient }) {
-  return async function getDisruptions({ token }) {
+  return async function getDisruptions({ token, lastUpdated }) {
     return httpClient({
       method: 'GET',
       url: 'api/v2/disruptions',
       params: {
         limit: 200,
-        lastUpdated: '2020-03-21T00:00:00',
+        lastUpdated,
       },
       headers: {
         'Content-Type': 'application/json',
