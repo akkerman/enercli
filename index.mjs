@@ -4,6 +4,7 @@ import makeGetToken from './token-service.mjs'
 import makeGetDisruptions from './disruption-service.mjs'
 import makeBuildTable from './table-service.mjs'
 import { default as fsWithCallbacks } from 'fs'
+
 const fs = fsWithCallbacks.promises
 
 async function saveToken(token) {
@@ -18,9 +19,7 @@ const httpClient = axios.create({
   timeout: 5000
 })
 
-const sleep = sec => new Promise(resolve => setTimeout(resolve, sec * 1000))
-
-async function main() {
+function init() {
   const {
     client_id,
     client_secret,
@@ -31,10 +30,12 @@ async function main() {
     process.exit(1)
   }
 
-  while (true) {
-    const getToken = makeGetToken({ saveToken, readToken, httpClient, client_secret, client_id })
-    const getDisruptions = makeGetDisruptions({ httpClient })
-    const buildTable = makeBuildTable()
+  const getToken = makeGetToken({ saveToken, readToken, httpClient, client_secret, client_id })
+  const getDisruptions = makeGetDisruptions({ httpClient })
+  const buildTable = makeBuildTable()
+
+  return async function main() {
+    console.clear()
 
     try {
       const token = await getToken()
@@ -45,8 +46,10 @@ async function main() {
     } catch (error) {
       console.log(error)
     }
-    await sleep(500)
   }
 }
 
+
+const main = init()
 main()
+setInterval(main, 500_000)
