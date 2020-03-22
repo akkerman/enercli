@@ -1,9 +1,8 @@
-export default function makeDisruptionService({ httpClient }) {
-  return async function getDisruptions({ token, lastUpdated }) {
+export default function makeDisruptionService ({ httpClient }) {
+  return async function getDisruptions ({ token, lastUpdated }) {
     let disruptions = []
     let go = true
-    let next = undefined
-
+    let next
 
     while (go) {
       const res = await get(next)
@@ -15,12 +14,8 @@ export default function makeDisruptionService({ httpClient }) {
 
     return disruptions
 
-
-    function get(next) {
-      if (next)
-        process.stdout.write('.')
-      else
-        process.stdout.write('Get disruptions')
+    function get (next) {
+      if (next) { process.stdout.write('.') } else { process.stdout.write('Get disruptions') }
 
       return httpClient({
         method: 'GET',
@@ -28,14 +23,13 @@ export default function makeDisruptionService({ httpClient }) {
         params: {
           limit: 200,
           lastUpdated,
-          next,
+          next
         },
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       }).then(r => r.data)
     }
   }
-
 }
