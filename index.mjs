@@ -58,4 +58,4 @@ function init() {
 const main = init()
 
 main()
-setInterval(main, 500_000)
+setInterval(main, 500000)
