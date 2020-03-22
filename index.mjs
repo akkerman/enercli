@@ -54,6 +54,44 @@ function init () {
 }
 
 const main = init()
+let timer
 
-main()
-setInterval(main, 500000)
+function restart () {
+  console.log('(re)starting dashboard')
+  if (timer) {
+    clearInterval(timer)
+  }
+  main()
+  timer = setInterval(main, 500000)
+}
+
+function shutdown () {
+  console.info('shutting down')
+  clearInterval(timer)
+  process.exit()
+}
+
+process.on('SIGINT', shutdown)
+process.on('SIGTERM', shutdown)
+process.on('SIGUSR1', restart)
+process.on('SIGINFO', restart)
+
+process.stdin.currentLine = ''
+process.stdin.setRawMode(true)
+process.stdin.on('data', buf => {
+  const charAsAscii = buf.toString().charCodeAt(0)
+  console.log(buf.toString())
+  switch (charAsAscii) {
+    case 0x03:
+      shutdown()
+      break
+    case 0x0c:
+      console.clear()
+      restart()
+      break
+    default:
+      // nothing
+  }
+})
+
+restart()
