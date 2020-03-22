@@ -46,7 +46,7 @@ function init() {
       const disruptions = await getDisruptions({ token, lastUpdated })
 
       console.clear()
-      console.info(`${now} ${disruptions.length} disruptions today`)
+      console.info(`${now} ${disruptions.length} disruptions updated today`)
       console.info(buildTable(disruptions))
     } catch (error) {
       console.log(error)
