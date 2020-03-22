@@ -15,7 +15,11 @@ export default function makeDisruptionService ({ httpClient }) {
     return disruptions
 
     function get (next) {
-      if (next) { process.stdout.write('.') } else { process.stdout.write('Get disruptions') }
+      if (next) {
+        process.stdout.write('.')
+      } else {
+        process.stdout.write('Get disruptions')
+      }
 
       return httpClient({
         method: 'GET',

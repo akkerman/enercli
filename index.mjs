@@ -1,11 +1,12 @@
 import axios from 'axios'
+import moment from 'moment'
+import fsWithCallbacks from 'fs'
 
 import makeGetToken from './token-service.mjs'
 import makeGetDisruptions from './disruption-service.mjs'
 import makeBuildTable from './table-service.mjs'
-import fsWithCallbacks from 'fs'
-import moment from 'moment'
 
+moment.locale('nl')
 const fs = fsWithCallbacks.promises
 
 async function saveToken (token) {
@@ -36,16 +37,15 @@ function init () {
   const buildTable = makeBuildTable()
 
   return async function main () {
-    const now = moment().format('ddd HH:mm')
+    const now = moment().format('dddd HH:mm')
     const lastUpdated = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
     try {
       const token = await getToken()
-
       const disruptions = await getDisruptions({ token, lastUpdated })
 
       console.clear()
-      console.info(`${now} ${disruptions.length} disruptions updated today`)
+      console.info(`Vandaag zijn er ${disruptions.length} onderbrekingen bijgewerkt. Laatste update: ${now} `)
       console.info(buildTable(disruptions))
     } catch (error) {
       console.log(error)

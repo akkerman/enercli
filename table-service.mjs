@@ -1,24 +1,31 @@
 import Table from 'cli-table3'
-import chalk from 'chalk'
+import colors from 'colors'
 import moment from 'moment'
 
 export default function makeBuildTable () {
   return function buildTable (disruptions) {
     const table = new Table({
-      head: ['#', 'Id', 'Netbeheerder', 'Titel', 'Sinds', 'Bijgewerkt', 'Opgelost'],
-      colWidths: [4, 10, 15, 80, 20, 20, 20]
+      style: { head: ['brightWhite'] },
+      head: ['#', 'Id', '', '', '', 'Plaats', 'Straat', 'Oorzaak', 'Sinds', 'Bijgewerkt', 'Opgelost'],
+      colWidths: [4, 10, 9, 4, 4, 15, 25, 50]
     })
 
     disruptions.sort(disruptionComparator)
 
-    for (let i = 0, max = Math.min(disruptions.length, 20); i < max; i += 1) {
+    const length = disruptions.length
+
+    for (let i = 0, max = Math.min(length, 20); i < max; i += 1) {
       const dis = disruptions[i]
 
       table.push([
-        i + 1,
+        length - i,
         dis.source.id,
         org(dis.source.organisation),
-        dis.titel,
+        dis.network.type === 'gas' ? ' '.blue : ' '.yellow,
+        dis.planned ? ' '.brightGreen : ' '.brightYellow,
+        semi(dis.location.features.properties.city),
+        semi(dis.location.features.properties.street),
+        dis.cause,
         date(dis.period.begin || dis.period.plannedBegin),
         date(dis.lastUpdated),
         date(dis.period.end || dis.period.plannedEnd)
@@ -34,9 +41,9 @@ export default function makeBuildTable () {
 
   function org (nb) {
     return {
-      Stedin: chalk.yellow('Stedin'),
-      Liander: chalk.cyan('Liander'),
-      Enexis: chalk.magenta('Enexis')
+      Stedin: colors.yellow('Stedin'),
+      Liander: colors.cyan('Liander'),
+      Enexis: colors.magenta('Enexis')
     }[nb]
   }
 
@@ -45,5 +52,9 @@ export default function makeBuildTable () {
     const yd = y.lastUpdated
 
     return xd < yd ? 1 : -1
+  }
+
+  function semi (t) {
+    return t.split(';')[0]
   }
 }
