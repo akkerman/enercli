@@ -17,7 +17,7 @@ async function readToken () {
 }
 
 const httpClient = axios.create({
-  baseURL: 'https://test.energieonderbrekingen.nl',
+  baseURL: 'https://energieonderbrekingen.nl',
   timeout: 5000
 })
 
