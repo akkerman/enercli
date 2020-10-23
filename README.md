@@ -32,6 +32,6 @@ node index.mjs
 
 ```sh
 docker build -t enercli https://github.com/akkerman/enercli.git
-docker run -it --rm --name enercli -e client_id=<your_client_id> -e client_secret=<your_client_secret> enercli
+docker run -it --rm --name enercli -e client_id=<your_client_id> -e client_secret=<your_client_secret> -e TZ=Europe/Amsterdam enercli
 ```
 
