@@ -7,7 +7,7 @@ export default function makeBuildTable () {
     const table = new Table({
       style: { head: ['brightWhite'] },
       head: ['#', 'Id', '', '', '', 'Plaats', 'Straat', 'Oorzaak', 'Sinds', 'Bijgewerkt', 'Opgelost'],
-      colWidths: [4, 10, 9, 4, 4, 15, 25, 50]
+      colWidths: [5, 10, 9, 4, 4, 15, 25, 50]
     })
 
     disruptions.sort(disruptionComparator)
