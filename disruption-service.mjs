@@ -28,7 +28,6 @@ export default function makeDisruptionService ({ httpClient }) {
           limit: 200,
           lastUpdated,
           network,
-          status: 'ongoing',
           next
         },
         headers: {
