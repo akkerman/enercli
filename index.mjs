@@ -55,14 +55,14 @@ function init () {
 
   return async function main () {
     const now = moment().format('dddd HH:mm')
-    const lastUpdated = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss')
+    const lastUpdated = moment().subtract(1, 'week').startOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
     try {
       const token = await getToken()
       const disruptions = await getDisruptions({ token, lastUpdated, network: Array.from(networks) })
 
       console.clear()
-      console.info(`Vandaag zijn er ${disruptions.length} onderbrekingen bijgewerkt. Laatste update: ${now} `)
+      console.info(`Van de onderbrekingen, nieuw in de afgelopen week, staan er ${disruptions.length} open. Laatste update: ${now} `)
       console.info(buildTable(disruptions, maxLines))
     } catch (error) {
       console.log(error)
@@ -79,7 +79,7 @@ function restart () {
     clearInterval(timer)
   }
   main()
-  timer = setInterval(main, 500000)
+  timer = setInterval(main, 76543)
 }
 
 function shutdown () {
