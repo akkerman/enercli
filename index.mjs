@@ -120,6 +120,7 @@ process.stdin.on('data', buf => {
       shutdown()
       break
     default:
+      console.info(charAsAscii)
       // nothing
   }
 })
