@@ -21,6 +21,20 @@ const httpClient = axios.create({
   timeout: 5000
 })
 
+const networks = new Set(['electricity', 'gas'])
+
+function toggleNetwork (nw) {
+  if (networks.has(nw)) {
+    networks.delete(nw)
+  } else {
+    networks.add(nw)
+  }
+  if (networks.size === 0) {
+    networks.add('electricity')
+    networks.add('gas')
+  }
+}
+
 function init () {
   const {
     client_id: clientId,
@@ -45,7 +59,7 @@ function init () {
 
     try {
       const token = await getToken()
-      const disruptions = await getDisruptions({ token, lastUpdated })
+      const disruptions = await getDisruptions({ token, lastUpdated, network: Array.from(networks) })
 
       console.clear()
       console.info(`Vandaag zijn er ${disruptions.length} onderbrekingen bijgewerkt. Laatste update: ${now} `)
@@ -85,12 +99,25 @@ process.stdin.on('data', buf => {
   const charAsAscii = buf.toString().charCodeAt(0)
   console.log(buf.toString())
   switch (charAsAscii) {
-    case 0x03:
+    case 0x03: // CTRL+C
       shutdown()
       break
-    case 0x0c:
+    case 0x0c: // CTRL+L
       console.clear()
       restart()
+      break
+    case 101: // e
+      toggleNetwork('electricity')
+      console.clear()
+      restart()
+      break
+    case 103: // g
+      toggleNetwork('gas')
+      console.clear()
+      restart()
+      break
+    case 113: // q
+      shutdown()
       break
     default:
       // nothing

@@ -1,5 +1,5 @@
 export default function makeDisruptionService ({ httpClient }) {
-  return async function getDisruptions ({ token, lastUpdated }) {
+  return async function getDisruptions ({ token, lastUpdated, network }) {
     let disruptions = []
     let go = true
     let next
@@ -27,6 +27,7 @@ export default function makeDisruptionService ({ httpClient }) {
         params: {
           limit: 200,
           lastUpdated,
+          network,
           next
         },
         headers: {

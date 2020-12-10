@@ -23,10 +23,12 @@ node index.mjs
 
 ## Shortcuts
 
-| key      | function              |
-| :--      | :--                   |
-| `ctrl+c` | Exit application      |
-| `ctrl+l` | Clear screen, refresh |
+| key      | function                      |
+| :--      | :--                           |
+| `ctrl+c` | Exit application              |
+| `ctrl+l` | Clear screen, refresh         |
+| `e`      | Toggle display of electricity |
+| `g`      | Toggle display of gas         |
 
 ## Run with docker
 
