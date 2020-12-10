@@ -3,7 +3,7 @@ import colors from 'colors'
 import moment from 'moment'
 
 export default function makeBuildTable () {
-  return function buildTable (disruptions) {
+  return function buildTable (disruptions, maxLines = 20) {
     const table = new Table({
       style: { head: ['brightWhite'] },
       head: ['#', 'Id', '', '', '', 'Plaats', 'Straat', 'Oorzaak', 'Sinds', 'Bijgewerkt', 'Opgelost'],
@@ -14,7 +14,7 @@ export default function makeBuildTable () {
 
     const length = disruptions.length
 
-    for (let i = 0, max = Math.min(length, 20); i < max; i += 1) {
+    for (let i = 0, max = Math.min(length, maxLines); i < max; i += 1) {
       const dis = disruptions[i]
 
       table.push([

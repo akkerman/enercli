@@ -24,13 +24,16 @@ const httpClient = axios.create({
 function init () {
   const {
     client_id: clientId,
-    client_secret: clientSecret
+    client_secret: clientSecret,
+    lines
   } = process.env
 
   if (!clientId || !clientSecret) {
     console.error('Please set both client_id and client_secret as environment variables')
     process.exit(1)
   }
+
+  const maxLines = lines || 20
 
   const getToken = makeGetToken({ saveToken, readToken, httpClient, clientSecret, clientId })
   const getDisruptions = makeGetDisruptions({ httpClient })
@@ -46,7 +49,7 @@ function init () {
 
       console.clear()
       console.info(`Vandaag zijn er ${disruptions.length} onderbrekingen bijgewerkt. Laatste update: ${now} `)
-      console.info(buildTable(disruptions))
+      console.info(buildTable(disruptions, maxLines))
     } catch (error) {
       console.log(error)
     }
