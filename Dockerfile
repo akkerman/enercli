@@ -1,4 +1,4 @@
-from node:13.10-alpine
+from node:14.17-alpine
 label maintainer="ikbenmarcelakkerman@hotmail.com"
 
 workdir /usr/src/dir
